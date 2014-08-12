@@ -10,11 +10,12 @@
 ##' Also known as the axiom.
 ##'
 ##' @param rules A data frame containing columns "inp" and "out".  These contain the input
-##' variables and the corresponding replacement string.  See the examples.
+##' variables and the corresponding replacement string.  See the examples in
+##' \code{\link{drawLsys}}.
 ##'
 ##' @param n An integer giving the number of cycles or iterations desired.
 ##'
-##' @param retAll Logical.  If \code{TRUE} the result at each cycle will be returned,
+##' @param retAll Logical.  If \code{TRUE}, the result at each cycle will be returned,
 ##' otherwise only the last result is returned.
 ##'
 ##' @param verbose An integer giving the level of information desired as the calculation
@@ -23,7 +24,7 @@
 ##' less than 1.
 ##'
 ##' @return If \code{retAll = FALSE}, a character vector of length 1 giving the string
-##' at the end of the iterations.  Otherwise, a character vector of length \code{n + 1}
+##' at the end processing.  Otherwise, a character vector of length \code{n + 1}
 ##' containing \code{init} plus the results at the end of each iteration.
 ##' 
 ##' @name Lsys

@@ -4,15 +4,15 @@
 \alias{LindenmayeR-package}
 \title{Lindenmayer System Functions}
 \description{
-An implementation of the Lindenmayer System or L-system
+Functions to Explore L-Systems (Lindenmayer Systems)
 }
 \details{
 Lindenmayer or L-systems are parallel rewriting systems
 which can be used to simulate biological forms and certain
 kinds of fractals.  Briefly, in an L-system a series of
 symbols in a string are replaced iteratively according to
-rules to give a more complex string composed of the same
-symbols. Eventually, the symbols are translated into turtle
+rules to give a more complex string. Eventually, the
+symbols are translated into turtle
 graphics for plotting.  Wikipedia has a very good
 introduction: \url{https://en.wikipedia.org/wiki/L-system}
 This package provides basic functions for exploring L-systems.

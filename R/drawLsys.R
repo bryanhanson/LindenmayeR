@@ -1,10 +1,10 @@
 ##' Draw a 2D L-System Using Turtle Graphics
 ##'
 ##' This function takes input strings, previously created with \code{\link{Lsys}},
-##' into 2D turtle graphics instructions.
+##' translates them into 2D turtle graphics instructions, and then plots the results.
 ##' 
 ##' @param string A character vector giving the strings containing the turtle graphics
-##' instructions.
+##' instructions.  Created by \code{\link{Lsys}}.
 ##'
 ##' @param drules A data frame containing columns "symbols" and "action".  These contain the input
 ##' symbols and the corresponding drawing action.  See the examples.
@@ -12,23 +12,28 @@
 ##' @param st A numeric vector of length 3 giving the screen coordinates where
 ##' the start of the curve should be placed.  The screen is 100 x 100 with the
 ##' lower left corner as 0,0.  The third element is the initial drawing angle
-##' in degrees
+##' in degrees.
 ##'
-##' @param step Numeric.  The length of the drawing step.
+##' @param stepSize Numeric.  The length of the drawing step.
 ##'
 ##' @param ang Numeric.  The angle in degrees when a change in direction is requested.
 ##'
 ##' @param which Integer.  The entries in \code{string} which should be drawn.  Defaults
 ##' to the last (most complex) entry.  If \code{length(which) > 1} each plot is drawn in
-##' it's own window.
+##' its own window.
 ##'
 ##' @param shrinkFactor A numeric vector of the same length as \code{string}.  As each
-##' plot is made, \code{step} will be divided by the corresponding value in \code{shrinkFactor}.
+##' plot is made, \code{stepSize} will be divided by the corresponding value in \code{shrinkFactor}.
 ##' This allows one to scale down the increasingly large/complex plots to make them
 ##' occupy a space similar to the less complex plots.
 ##'
 ##' @param ...  Additional parameters to be passed to the \code{grid} drawing routines.
-##' Most likely, something of the form \code{gp = gpar(...)}.  See \code{\link{gpar}}.
+##' Most likely, something of the form \code{gp = gpar(...)}.  See \code{\link{gpar}}
+##' and the last example.
+##'
+##' @section Warning: Remember that if \code{retAll = TRUE}, \code{\link{Lsys}} returns the initial string plus the results
+##' of all iterations.  In this case, if you want the 5th iteration, you should specify \code{which = 6} since
+##' the initial string is in \code{string[1]}.
 ##' 
 ##' @return None; side effect is a plot.
 ##' 
@@ -44,46 +49,47 @@
 ##' k1 <- Lsys(init = "F", rules = rkoch1, n = 3)
 ##' dkoch <- data.frame(symbol = c("F", "f", "+", "-", "[", "]"),
 ##' action = c("F", "f", "+", "-", "[", "]"), stringsAsFactors = FALSE)
-##' drawLsys(string = k1, step = 3, st = c(10, 50, 0), drules = dkoch)
+##' drawLsys(string = k1, stepSize = 3, st = c(10, 50, 0), drules = dkoch)
 ##' grid.text("Modified Koch Curve (n = 3)", 0.5, 0.25)
 ##'
 ##' # Classic Koch snowflake
 ##' rkoch2 <- data.frame(inp = c("F"), out = c("F-F++F-F"), stringsAsFactors = FALSE)
 ##' k2 <- Lsys(init = "F++F++F", rules = rkoch2, n = 4)
-##' drawLsys(string = k2, step = 1, ang = 60, st = c(10, 25, 0), drules = dkoch)
-##' grid.text("Classic Koch Snowflake (n = 3)", 0.5, 0.5)
+##' drawLsys(string = k2, stepSize = 1, ang = 60, st = c(10, 25, 0), drules = dkoch)
+##' grid.text("Classic Koch Snowflake (n = 4)", 0.5, 0.5)
 ##'
 ##' # Sierpinski Triangle
 ##' rSierp <- data.frame(inp = c("A", "B"), out = c("B-A-B", "A+B+A"), stringsAsFactors = FALSE)
 ##' s <- Lsys(init = "A", rules = rSierp, n = 6)
 ##' dSierp <- data.frame(symbol = c("A", "B", "+", "-", "[", "]"),
 ##' action = c("F", "F", "+", "-", "[", "]"), stringsAsFactors = FALSE)
-##' drawLsys(string = s, step = 1, ang = 60, st = c(20, 25, 0), drules = dSierp)
+##' drawLsys(string = s, stepSize = 1, ang = 60, st = c(20, 25, 0), drules = dSierp)
 ##' grid.text("Sierpinski Triangle (n = 6)", 0.5, 0.1)
 ##'
 ##' # A primitive tree
-##' primitive_rules <- data.frame(inp = c("0", "1"),
+##' prim_rules <- data.frame(inp = c("0", "1"),
 ##' out = c("1[+0]-0", "11"), stringsAsFactors = FALSE)
-##' primitive_plant <- Lsys(init = "0", rules = primitive_rules, n = 7)
+##' primitive_plant <- Lsys(init = "0", rules = prim_rules, n = 7)
 ##' draw_prim <- data.frame(symbol = c("0", "1", "+", "-", "[", "]"),
 ##' action = c("F", "F", "+", "-", "[", "]"), stringsAsFactors = FALSE)
-##' drawLsys(string = primitive_plant, step = 1, ang = 45, st = c(50, 5, 90),
-##' drules = draw_prim, which = 7)
-##' grid.text("Primitive Tree (n = 6)", 0.5, 0.75)
+##' drawLsys(string = primitive_plant, stepSize = 1, ang = 45, st = c(50, 5, 90),
+##' drules = draw_prim)
+##' grid.text("Primitive Tree (n = 7)", 0.5, 0.75)
 ##'
 ##' # A more realistic botanical structure
 ##' # Some call this a fractal tree, I think it is more like seaweed
+##' # Try drawing the last iteration (too slow for here, but looks great)
 ##' fractal_tree_rules <- data.frame(inp = c("X", "F"),
 ##' out = c("F-[[X]+X]+F[+FX]-X", "FF"), stringsAsFactors = FALSE)
 ##' fractal_tree <- Lsys(init = "X", rules = fractal_tree_rules, n = 7)
 ##' draw_ft <- data.frame(symbol = c("X", "F", "+", "-", "[", "]"),
 ##' action = c("f", "F", "+", "-", "[", "]"), stringsAsFactors = FALSE)
-##' drawLsys(string = fractal_tree, step = 2, ang = 25, st = c(50, 5, 90),
+##' drawLsys(string = fractal_tree, stepSize = 2, ang = 25, st = c(50, 5, 90),
 ##' drules = draw_ft, which = 5, gp = gpar(col = "chocolate4", fill = "honeydew"))
-##' grid.text("Fractal Seaweed (n = 5)", 0.25, 0.25)
+##' grid.text("Fractal Seaweed (n = 4)", 0.25, 0.25)
 
 drawLsys <- function(string = NULL, drules = NULL,
-	st = c(5, 50, 0), step = 1.0, ang = 90.0,
+	st = c(5, 50, 0), stepSize = 1.0, ang = 90.0,
 	which = length(string), shrinkFactor = NULL, ...) {
 
 	# check drules to make sure only allowed characters were given
@@ -120,22 +126,22 @@ drawLsys <- function(string = NULL, drules = NULL,
 		grid.move.to(st[1], st[2], default.units = "native")
 		cp <- st # cp = current point
 		ch <- st[3] # ch = current heading, 0 = East in degrees
-		if (!is.null(shrinkFactor)) step <- step/shrinkFactor
+		if (!is.null(shrinkFactor)) stepSize <- stepSize/shrinkFactor
 		fifo <- vector("list") # store info to restore later
 		ns <- 0L # stack counter
 
 		for (j in 1:length(sring))	{
 			#cat("Processing character", j, "\n")
 			if (sring[j] == "F") {
-				 x <- cp[1] + step*cos(ch*pi/180)
-				 y <- cp[2] + step*sin(ch*pi/180)
+				 x <- cp[1] + stepSize*cos(ch*pi/180)
+				 y <- cp[2] + stepSize*sin(ch*pi/180)
 				 grid.line.to(x, y, default.units = "native", ...)
 				 cp <- c(x, y)
 				 }
 
 			if (sring[j] == "f") {
-				 x <- cp[1] + step*cos(ch*pi/180)
-				 y <- cp[2] + step*sin(ch*pi/180)
+				 x <- cp[1] + stepSize*cos(ch*pi/180)
+				 y <- cp[2] + stepSize*sin(ch*pi/180)
 				 grid.move.to(x, y, default.units = "native")
 				 cp <- c(x, y)
 				 }
