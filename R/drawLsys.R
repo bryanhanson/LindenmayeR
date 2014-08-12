@@ -73,8 +73,8 @@
 ##' draw_prim <- data.frame(symbol = c("0", "1", "+", "-", "[", "]"),
 ##' action = c("F", "F", "+", "-", "[", "]"), stringsAsFactors = FALSE)
 ##' drawLsys(string = primitive_plant, stepSize = 1, ang = 45, st = c(50, 5, 90),
-##' drules = draw_prim)
-##' grid.text("Primitive Tree (n = 7)", 0.5, 0.75)
+##' drules = draw_prim, which = 7)
+##' grid.text("Primitive Tree (n = 6)", 0.5, 0.75)
 ##'
 ##' # A more realistic botanical structure
 ##' # Some call this a fractal tree, I think it is more like seaweed
