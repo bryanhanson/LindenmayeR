@@ -1,0 +1,12 @@
+
+NEWS file for package LindenmayeR
+
+Lindenmayer or L-systems are parallel rewriting systems which can be used to simulate biological forms and certain kinds of fractals.  Briefly, in an L-system a series of symbols in a string are replaced iteratively according to rules to give a more complex string composed of the same symbols. Eventually, the symbols are translated into turtle graphics for plotting.  Wikipedia has a very good introduction: en.wikipedia.org/wiki/L-system This package provides basic functions for exploring L-systems.
+
+Bryan A. Hanson DePauw University, Greencastle Indiana USA
+
+###### Version: 0.1-0
+Date: 2014-08-11
+News:
+>> First version with basic functionality.  We'll stay at this version number until ready for submission to CRAN. 
+

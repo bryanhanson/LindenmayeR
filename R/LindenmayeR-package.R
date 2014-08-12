@@ -1,0 +1,20 @@
+##' An implementation of the Lindenmayer System or L-system
+##' 
+##' Lindenmayer or L-systems are parallel rewriting systems
+##' which can be used to simulate biological forms and certain
+##' kinds of fractals.  Briefly, in an L-system a series of
+##' symbols in a string are replaced iteratively according to
+##' rules to give a more complex string composed of the same
+##' symbols. Eventually, the symbols are translated into turtle
+##' graphics for plotting.  Wikipedia has a very good
+##' introduction: \url{https://en.wikipedia.org/wiki/L-system}
+##' This package provides basic functions for exploring L-systems.
+##'
+##' @name LindenmayeR-package
+##' @title Lindenmayer System Functions
+##' @docType package
+##' @author Bryan A. Hanson
+##' @import stringr
+##' @rdname LindenmayeR-package
+##' @keywords package
+NULL
