@@ -103,6 +103,7 @@ drawLsys <- function(string = NULL, drules = NULL,
 
 	# check drules to make sure only allowed characters were given
 	OK <- c(LETTERS, letters, "+", "-", "[", "]")
+	test <- drules$action
 	if (!all(test %in% OK)) {
 		msg1 <- paste("Only the following actions are recognized:",
 			paste(OK, collapse = " "), sep = " ")
