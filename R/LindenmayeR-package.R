@@ -15,6 +15,7 @@
 ##' @docType package
 ##' @author Bryan A. Hanson
 ##' @import stringr
+##' @import grid
 ##' @rdname LindenmayeR-package
 ##' @keywords package
 NULL

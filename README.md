@@ -11,6 +11,10 @@ At this time, I am trying to make sure that the basic actions exist and that eve
 
 The long term goal is to implement awesome 3D examples.  I'm in no particular hurry.  This interests me because the diagrams simulating plant growth are beautiful and interesting.  Long after Lindenmayer's work, it appears that the growth forms of plants work on a molecular level exactly as he imagined, via homebox type genes.  See Lippman ZB, Cohen O, Alvarez JP, Abu-Abied M, Pekker I, *et al.* (2008) The making of a compound inflorescence in tomato and related nightshades. [PLoS Biol 6(11): e288](http://dx.doi.org/10.1371/journal.pbio.0060288)
 
+Here is the coordinate system used in the 3D implementation.
+
+![3D Coordinate System](CoordSystem.png)
+
 #### License Information
 
 `LindenmayeR` is distributed under the GPL-3 license, as stated in the DESCRIPTION file.  For more info, see the [GPL site.](https://gnu.org/licenses/gpl.html)

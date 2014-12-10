@@ -5,6 +5,14 @@ Lindenmayer or L-systems are parallel rewriting systems which can be used to sim
 
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 
+###### Version: 0.1-1
+Date: 2014-12-10
+News:
+>> Added image to README.md
+>> Some work done towards 3D drawing, but it's not right.  Don't trust!
+>> Has not been built or checked.
+
+
 ###### Version: 0.1-0
 Date: 2014-08-11
 News:

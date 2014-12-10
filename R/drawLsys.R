@@ -44,6 +44,7 @@
 ##'
 ##' @examples
 ##' require('grid')
+##'
 ##' # Modified Koch curve
 ##' rkoch1 <- data.frame(inp = c("F"), out = c("F+F-F-F+F"), stringsAsFactors = FALSE)
 ##' k1 <- Lsys(init = "F", rules = rkoch1, n = 3)
@@ -65,6 +66,14 @@
 ##' action = c("F", "F", "+", "-", "[", "]"), stringsAsFactors = FALSE)
 ##' drawLsys(string = s, stepSize = 1, ang = 60, st = c(20, 25, 0), drules = dSierp)
 ##' grid.text("Sierpinski Triangle (n = 6)", 0.5, 0.1)
+##'
+##' # Islands & Lakes
+##' islands_rules <- data.frame(inp = c("F", "f"), out = c("F+f-FF+F+FF+Ff+FF-f+FF-F-FF-Ff-FFF", "ffffff"), stringsAsFactors = FALSE)
+##' islands <- Lsys(init = "F+F+F+F", rules = islands_rules, n = 2)
+##' draw_islands <- data.frame(symbol = c("F", "f", "+", "-", "[", "]"),
+##' action = c("F", "f", "+", "-", "[", "]"), stringsAsFactors = FALSE)
+##' drawLsys(string = islands, step = 1, ang = 90, st = c(70, 35, 90),
+##' drules = draw_islands,  gp = gpar(col = "red", fill = "gray"))
 ##'
 ##' # A primitive tree
 ##' prim_rules <- data.frame(inp = c("0", "1"),
@@ -94,9 +103,16 @@ drawLsys <- function(string = NULL, drules = NULL,
 
 	# check drules to make sure only allowed characters were given
 	OK <- c(LETTERS, letters, "+", "-", "[", "]")
-	msg <- paste("Only the following actions are recognized:",
-		paste(OK, collapse = " "), sep = " ")
-	if (!any(drules$action %in% OK)) stop(msg)
+	if (!all(test %in% OK)) {
+		msg1 <- paste("Only the following actions are recognized:",
+			paste(OK, collapse = " "), sep = " ")
+		message(msg1)
+		good <- test %in% OK
+		bad <- test[!good]
+		msg2 <- paste("I can't use these:",
+			paste(bad, collapse = " "), sep = " ")
+		stop(msg2)
+		}
 		
 	for (n in 1:length(which)) {
 
