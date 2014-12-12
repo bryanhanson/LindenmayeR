@@ -56,7 +56,7 @@ Lsys <- function(init = NULL, rules = NULL, n = 5,
 		for (i in 1:nrow(rules)) {
 			rr <- str_locate_all(curr, rules[i,1])
 			if (verbose > 1L) cat("Processing rule", i, "\n")
-			if (is.na(rr[[1]][1,1])) {
+			if (dim(rr[[1]])[1] == 0) {
 				if (verbose > 1L) cat("\tRule", i, "was not needed\n")
 				next
 				}		
