@@ -1,7 +1,7 @@
 ### LindenmayeR
 #### Functions to Explore L-Systems (Lindenmayer Systems)
 
-`LindenmayeR is a WORK IN PROGRESS`.  The fundamental structures & behavior are changing frequently.  Check the NEWS file.
+`LindenmayeR is a WORK IN PROGRESS`.  The fundamental structures & behavior may change at any time.  Check the NEWS file.
 
 `LindenmayeR` currently implements 2-dimensional, deterministic, context-free L-systems, or DOLs.  Wikipedia has a very good introduction [page](https://en.wikipedia.org/wiki/L-system) to the topic.
 
