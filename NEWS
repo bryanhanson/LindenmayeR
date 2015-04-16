@@ -6,7 +6,7 @@ Lindenmayer or L-systems are parallel rewriting systems which can be used to sim
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/LindenmayeR
 
-Changes in version 0.1.4 2015-04-15
+Changes in version 0.1.4 2015-04-16
      + Update for new version of stringr & fixed a few fiddly details.
 
 Changes in version 0.1-3 2014-12-12

@@ -68,7 +68,8 @@
 ##' grid.text("Sierpinski Triangle (n = 6)", 0.5, 0.1)
 ##'
 ##' # Islands & Lakes
-##' islands_rules <- data.frame(inp = c("F", "f"), out = c("F+f-FF+F+FF+Ff+FF-f+FF-F-FF-Ff-FFF", "ffffff"), stringsAsFactors = FALSE)
+##' islands_rules <- data.frame(inp = c("F", "f"), out = c("F+f-FF+F+FF+Ff+FF-f+FF-F-FF-Ff-FFF",
+##' "ffffff"), stringsAsFactors = FALSE)
 ##' islands <- Lsys(init = "F+F+F+F", rules = islands_rules, n = 2)
 ##' draw_islands <- data.frame(symbol = c("F", "f", "+", "-", "[", "]"),
 ##' action = c("F", "f", "+", "-", "[", "]"), stringsAsFactors = FALSE)

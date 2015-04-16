@@ -3,7 +3,7 @@ Type: Package
 Title: Functions to Explore L-Systems (Lindenmayer Systems)
 Version: 0.1.4
 Date: 2015-04-15
-Description: Lindenmayer or L-systems are parallel rewriting systems which can
+Description: L-systems or Lindenmayer systems are parallel rewriting systems which can
     be used to simulate biological forms and certain kinds of fractals.
     Briefly, in an L-system a series of symbols in a string are replaced
     iteratively according to rules to give a more complex string. Eventually,
