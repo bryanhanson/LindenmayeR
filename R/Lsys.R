@@ -5,7 +5,15 @@
 ##' the symbol is A, turn it into something.  If it is B, turn it into something else.
 ##' Production rules typically contain instructions about moving while drawing,
 ##' moving w/o drawing, changing direction, or storing the current state for re-use later.
-##' 
+##'
+##' The job of this function is to take an input "axiom" and apply the "production
+##' rules" and other paramters to create a new string of drawing instructions.  The
+##' "language" or character set of the axiom and production rules are arbitary, and
+##' the internet and literature contains many different examples.  The same fractal
+##' could be drawn using completely different sets of symbols.  The string produced
+##' by this function is processed by \code{\link{drawLsys}}.  See there for further
+##' explanation and examples.
+##'
 ##' @param init A character string giving variables (symbols) to use as the initial string
 ##' Also known as the axiom.
 ##'

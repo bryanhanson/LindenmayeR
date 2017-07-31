@@ -4,10 +4,25 @@
 ##' translates them into 2D turtle graphics instructions, and then plots the results.
 ##' 
 ##' @param string A character vector giving the strings containing the turtle graphics
-##' instructions.  Created by \code{\link{Lsys}}.
+##' instructions.  Created by \code{\link{Lsys}}.  The "language" and character set
+##' of this string is arbitary.  Compare the examples below for the modified Koch
+##' curve and the Sierpinski triangle.
 ##'
 ##' @param drules A data frame containing columns "symbols" and "action".  These contain the input
-##' symbols and the corresponding drawing action.  See the examples.
+##' symbols and the corresponding drawing action.  The symbol column is in the
+##' character set used by \code{\link{Lsys}} and is arbitary.  The action column
+##' entries must be from the set \code{c("F", "f", "+", "-", "[", "]")}.  These are 
+##' the final drawing instructions and are interpreted as follows:
+##' \describe{
+##'   \item{"F"}{Move forward drawing as you go.}
+##'   \item{"f"}{Move forward w/o drawing.}
+##'   \item{"+"}{Turn by positive \code{ang}.}
+##'   \item{"-"}{Turn by negative \code{ang}.}
+##'   \item{"["}{Save current position and heading.}
+##'   \item{"]"}{Restore saved position and heading (allows one to go back).}
+##' }
+##' See the examples.  Note that the "action" entry always uses these symbols,
+##' though not all of them need be used.
 ##'
 ##' @param st A numeric vector of length 3 giving the screen coordinates where
 ##' the start of the curve should be placed.  The screen is 100 x 100 with the
@@ -31,8 +46,9 @@
 ##' Most likely, something of the form \code{gp = gpar(...)}.  See \code{\link{gpar}}
 ##' and the last example.
 ##'
-##' @section Warning: Remember that if \code{retAll = TRUE}, \code{\link{Lsys}} returns the initial string plus the results
-##' of all iterations.  In this case, if you want the 5th iteration, you should specify \code{which = 6} since
+##' @section Warning: Remember that if \code{retAll = TRUE}, \code{\link{Lsys}} returns
+##' the initial string plus the results of all iterations.  In this case, if you want
+##' the 5th iteration, you should specify \code{which = 6} since
 ##' the initial string is in \code{string[1]}.
 ##' 
 ##' @return None; side effect is a plot.
@@ -76,7 +92,7 @@
 ##' drawLsys(string = islands, step = 1, ang = 90, st = c(70, 35, 90),
 ##' drules = draw_islands,  gp = gpar(col = "red", fill = "gray"))
 ##'
-##' # A primitive tree
+##' # A primitive tree (aka Pythagoras Tree)
 ##' prim_rules <- data.frame(inp = c("0", "1"),
 ##' out = c("1[+0]-0", "11"), stringsAsFactors = FALSE)
 ##' primitive_plant <- Lsys(init = "0", rules = prim_rules, n = 7)
@@ -103,7 +119,7 @@ drawLsys <- function(string = NULL, drules = NULL,
 	which = length(string), shrinkFactor = NULL, ...) {
 
 	# check drules to make sure only allowed characters were given
-	OK <- c(LETTERS, letters, "+", "-", "[", "]")
+	OK <- c("F", "f", "+", "-", "[", "]")
 	test <- drules$action
 	if (!all(test %in% OK)) {
 		msg1 <- paste("Only the following actions are recognized:",
