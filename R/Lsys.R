@@ -72,7 +72,7 @@ Lsys <- function(init = NULL, rules = NULL, n = 5,
 			}
 			
 		# reformat RR into something more useful
-		print(RR)
+		if (verbose >= 1L) print(RR)
 		
 		
 		for (i in 1:length(RR)) {
@@ -85,7 +85,7 @@ Lsys <- function(init = NULL, rules = NULL, n = 5,
 			RR[[i]] <- tmp
 			}
 
-		print(RR)
+		if (verbose >= 1L) print(RR)
 		
 		# RR is still a list, unlist to a data frame
 		
