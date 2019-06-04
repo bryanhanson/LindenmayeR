@@ -2,7 +2,7 @@
 ##'
 ##' This function takes input strings, previously created with \code{\link{Lsys}},
 ##' translates them into 2D turtle graphics instructions, and then plots the results.
-##' 
+##'
 ##' @param string A character vector giving the strings containing the turtle graphics
 ##' instructions.  Created by \code{\link{Lsys}}.  The "language" and character set
 ##' of this string is arbitary.  Compare the examples below for the modified Koch
@@ -11,7 +11,7 @@
 ##' @param drules A data frame containing columns "symbols" and "action".  These contain the input
 ##' symbols and the corresponding drawing action.  The symbol column is in the
 ##' character set used by \code{\link{Lsys}} and is arbitary.  The action column
-##' entries must be from the set \code{c("F", "f", "+", "-", "[", "]")}.  These are 
+##' entries must be from the set \code{c("F", "f", "+", "-", "[", "]")}.  These are
 ##' the final drawing instructions and are interpreted as follows:
 ##' \describe{
 ##'   \item{"F"}{Move forward drawing as you go.}
@@ -50,9 +50,9 @@
 ##' the initial string plus the results of all iterations.  In this case, if you want
 ##' the 5th iteration, you should specify \code{which = 6} since
 ##' the initial string is in \code{string[1]}.
-##' 
+##'
 ##' @return None; side effect is a plot.
-##' 
+##'
 ##' @name drawLsys
 ##' @rdname drawLsys
 ##' @export
@@ -116,7 +116,9 @@
 
 drawLsys <- function(string = NULL, drules = NULL,
 	st = c(5, 50, 0), stepSize = 1.0, ang = 90.0,
-	which = length(string), shrinkFactor = NULL, ...) {
+	which = length(string), shrinkFactor = NULL,
+	record = F,
+	...) {
 
 	# check drules to make sure only allowed characters were given
 	OK <- c("F", "f", "+", "-", "[", "]")
@@ -131,7 +133,7 @@ drawLsys <- function(string = NULL, drules = NULL,
 			paste(bad, collapse = " "), sep = " ")
 		stop(msg2)
 		}
-		
+
 	for (n in 1:length(which)) {
 
 		# set up the viewport
@@ -142,21 +144,21 @@ drawLsys <- function(string = NULL, drules = NULL,
 			name = "VP0")
 		pushViewport(vp)
 		grid.rect(...) # needed if a colored bkgnd is desired
-			
+
 		# convert the initial string into drawing instructions
 		# F = move forward; f = move w/o drawing
 		# +, - turn by angle; [ save cp, ch; ] restore saved cp, ch
-		
-		sring <- unlist(strsplit(string[which[n]], ""))	
+
+		string <- unlist(strsplit(string[which[n]], ""))
 
 		for (i in 1:nrow(drules)) { # translate to drawing commands
-			for (j in 1:length(sring)) {
-					if (sring[j] == drules$symbol[i]) sring[j] <- drules$action[i]
-					}		
+			for (j in 1:length(string)) {
+					if (string[j] == drules$symbol[i]) string[j] <- drules$action[i]
+					}
 			}
-			
+
 		# execute the drawing instructions
-		
+
 		grid.move.to(st[1], st[2], default.units = "native")
 		cp <- st # cp = current point
 		ch <- st[3] # ch = current heading, 0 = East in degrees
@@ -164,47 +166,97 @@ drawLsys <- function(string = NULL, drules = NULL,
 		fifo <- vector("list") # store info to restore later
 		ns <- 0L # stack counter
 
-		for (j in 1:length(sring))	{
-			#cat("Processing character", j, "\n")
-			if (sring[j] == "F") {
-				 x <- cp[1] + stepSize*cos(ch*pi/180)
-				 y <- cp[2] + stepSize*sin(ch*pi/180)
-				 grid.line.to(x, y, default.units = "native", ...)
-				 cp <- c(x, y)
-				 }
 
-			if (sring[j] == "f") {
-				 x <- cp[1] + stepSize*cos(ch*pi/180)
-				 y <- cp[2] + stepSize*sin(ch*pi/180)
-				 grid.move.to(x, y, default.units = "native")
-				 cp <- c(x, y)
-				 }
 
-			if (sring[j] == "[") {
-				#cat("Found a [ \n")
-				#cat("ns is:", ns, "\n")
-				ns <- ns + 1 # save the current settings
-				fifo[[ns]] <- c(cp, ch)
-				#print(fifo)			
-				}
+		if(isTRUE(record)){
+		  xRec = cp[1,drop =T]
+		  yRec = cp[2,drop = T]
 
-			if (sring[j] == "]") {
-				#cat("Found a ] \n")
-				#cat("ns is:", ns, "\n")
-				cp <- fifo[[ns]][1:2]
-				ch <- fifo[[ns]][3]
-				grid.move.to(cp[1], cp[2], default.units = "native")
-				ns <- ns - 1
-				#print(fifo)			
-				}
+		  typeRec = 's' # type of coord data
+		                # s - start
+		                # d - draw
+		                # r - reverse
+		  for (j in 1:length(string))	{
+		    #cat("Processing character", j, "\n")
+		    if (string[j] == "F") {
+		      x <- cp[1] + stepSize*cos(ch*pi/180)
+		      y <- cp[2] + stepSize*sin(ch*pi/180)
+		      grid.line.to(x, y, default.units = "native", ...)
+		      cp <- c(x,y)
+		      xRec = c(xRec,x)
+		      yRec = c(yRec,y)
+		      typeRec <- c(typeRec,"d")
+		    }else	if(string[j] == "f") {
+		      x <- cp[1] + stepSize*cos(ch*pi/180)
+		      y <- cp[2] + stepSize*sin(ch*pi/180)
+		      grid.move.to(x, y, default.units = "native")
+		      cp <- c(x,y)
 
-			if (sring[j] == "-") ch = ch - ang
+		      xRec = c(xRec,x)
+		      yRec = c(yRec,y)
+		      typeRec<-c(typeRec,"m")
+		    }else if(string[j] == "[") {
+		      #cat("Found a [ \n")
+		      #cat("ns is:", ns, "\n")
+		      ns <- ns + 1 # save the current settings
+		      fifo[[ns]] <- c(cp, ch)
+		      #print(fifo)
+		    }else if(string[j] == "]") {
+		      #cat("Found a ] \n")
+		      #cat("ns is:", ns, "\n")
+		      cp <- fifo[[ns]][1:2]
+		      ch <- fifo[[ns]][3]
+		      grid.move.to(cp[1], cp[2], default.units = "native")
+		      ns <- ns - 1
 
-			if (sring[j] == "+") ch = ch + ang
-			
-			}
+		      xRec = c(xRec,cp[1])
+		      yRec = c(yRec,cp[2])
+		      typeRec = c(typeRec,'r')
+		      #print(fifo)
+		    }else	if(string[j] == "-"){
+		      ch = ch - ang
+		    }else{
+		      if (string[j] == "+") ch = ch + ang
+		    }
+		  }
+
+		  return(data.frame(x = xRec,y = yRec,pType = typeRec))
+		}else{
+		  for (j in 1:length(string))	{
+		    #cat("Processing character", j, "\n")
+		    if (string[j] == "F") {
+		      x <- cp[1] + stepSize*cos(ch*pi/180)
+		      y <- cp[2] + stepSize*sin(ch*pi/180)
+		      grid.line.to(x, y, default.units = "native", ...)
+		      cp <- c(x, y)
+		    }else	if(string[j] == "f") {
+		      x <- cp[1] + stepSize*cos(ch*pi/180)
+		      y <- cp[2] + stepSize*sin(ch*pi/180)
+		      grid.move.to(x, y, default.units = "native")
+		      cp <- c(x, y)
+		    }else if(string[j] == "[") {
+		      #cat("Found a [ \n")
+		      #cat("ns is:", ns, "\n")
+		      ns <- ns + 1 # save the current settings
+		      fifo[[ns]] <- c(cp, ch)
+		      #print(fifo)
+		    }else if(string[j] == "]") {
+		      #cat("Found a ] \n")
+		      #cat("ns is:", ns, "\n")
+		      cp <- fifo[[ns]][1:2]
+		      ch <- fifo[[ns]][3]
+		      grid.move.to(cp[1], cp[2], default.units = "native")
+		      ns <- ns - 1
+		      #print(fifo)
+		    }else	if(string[j] == "-"){
+		      ch = ch - ang
+		    }else{
+		      if (string[j] == "+") ch = ch + ang
+		    }
+		  }
 		} # end of looping over which
-		
+		}
+
+
 	}
-	
-	
+
