@@ -1,8 +1,8 @@
 Package: LindenmayeR
 Type: Package
 Title: Functions to Explore L-Systems (Lindenmayer Systems)
-Version: 0.1.13
-Date: 2017-07-31
+Version: 0.1.14
+Date: 2019-06-05
 Description: L-systems or Lindenmayer systems are parallel rewriting systems which can
     be used to simulate biological forms and certain kinds of fractals.
     Briefly, in an L-system a series of symbols in a string are replaced
@@ -18,4 +18,4 @@ ByteCompile: TRUE
 BugReports: https://github.com/bryanhanson/LindenmayeR/issues
 Authors@R: c(person("Bryan", "Hanson", role = c("aut", "cre"), email =
     "hanson@depauw.edu"))
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

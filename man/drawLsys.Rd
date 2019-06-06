@@ -4,8 +4,9 @@
 \alias{drawLsys}
 \title{Draw a 2D L-System Using Turtle Graphics}
 \usage{
-drawLsys(string = NULL, drules = NULL, st = c(5, 50, 0), stepSize = 1,
-  ang = 90, which = length(string), shrinkFactor = NULL, ...)
+drawLsys(string = NULL, drules = NULL, st = c(5, 50, 0),
+  stepSize = 1, ang = 90, which = length(string),
+  shrinkFactor = NULL, ...)
 }
 \arguments{
 \item{string}{A character vector giving the strings containing the turtle graphics
