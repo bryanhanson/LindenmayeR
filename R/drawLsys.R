@@ -51,7 +51,8 @@
 ##' the 5th iteration, you should specify \code{which = 6} since
 ##' the initial string is in \code{string[1]}.
 ##'
-##' @return None; side effect is a plot.
+##' @return none, side effect is a plot, UNLESS record is set to be TURE then a data frame, containing coordinate data and segment types
+##'   s for start of a segment d for segment endpoints to be drawn, r for reverse points, see \code{\link{recLsys}}
 ##'
 ##' @name drawLsys
 ##' @rdname drawLsys
@@ -113,11 +114,18 @@
 ##' drawLsys(string = fractal_tree, stepSize = 2, ang = 25, st = c(50, 5, 90),
 ##' drules = draw_ft, which = 5, gp = gpar(col = "chocolate4", fill = "honeydew"))
 ##' grid.text("Fractal Seaweed (n = 4)", 0.25, 0.25)
+##'
+##' # Calculation/rendering separation
+##'
+##' d = drawLsys(fractal_tree, stepSize = 2, ang = 25, st = c(50, 5, 90),drules = draw_ft, which = 5,record=TRUE)
+##' ggLsys(d)
+##'
+##'
 
 drawLsys <- function(string = NULL, drules = NULL,
 	st = c(5, 50, 0), stepSize = 1.0, ang = 90.0,
 	which = length(string), shrinkFactor = NULL,
-	record = F,
+	record = FALSE,
 	...) {
 
 	# check drules to make sure only allowed characters were given
@@ -169,58 +177,9 @@ drawLsys <- function(string = NULL, drules = NULL,
 
 
 		if(isTRUE(record)){
-		  xRec = cp[1,drop =T]
-		  yRec = cp[2,drop = T]
-
-		  typeRec = 's' # type of coord data
-		                # s - start
-		                # d - draw
-		                # r - reverse
-		  for (j in 1:length(string))	{
-		    #cat("Processing character", j, "\n")
-		    if (string[j] == "F") {
-		      x <- cp[1] + stepSize*cos(ch*pi/180)
-		      y <- cp[2] + stepSize*sin(ch*pi/180)
-		      grid.line.to(x, y, default.units = "native", ...)
-		      cp <- c(x,y)
-		      xRec = c(xRec,x)
-		      yRec = c(yRec,y)
-		      typeRec <- c(typeRec,"d")
-		    }else	if(string[j] == "f") {
-		      x <- cp[1] + stepSize*cos(ch*pi/180)
-		      y <- cp[2] + stepSize*sin(ch*pi/180)
-		      grid.move.to(x, y, default.units = "native")
-		      cp <- c(x,y)
-
-		      xRec = c(xRec,x)
-		      yRec = c(yRec,y)
-		      typeRec<-c(typeRec,"m")
-		    }else if(string[j] == "[") {
-		      #cat("Found a [ \n")
-		      #cat("ns is:", ns, "\n")
-		      ns <- ns + 1 # save the current settings
-		      fifo[[ns]] <- c(cp, ch)
-		      #print(fifo)
-		    }else if(string[j] == "]") {
-		      #cat("Found a ] \n")
-		      #cat("ns is:", ns, "\n")
-		      cp <- fifo[[ns]][1:2]
-		      ch <- fifo[[ns]][3]
-		      grid.move.to(cp[1], cp[2], default.units = "native")
-		      ns <- ns - 1
-
-		      xRec = c(xRec,cp[1])
-		      yRec = c(yRec,cp[2])
-		      typeRec = c(typeRec,'r')
-		      #print(fifo)
-		    }else	if(string[j] == "-"){
-		      ch = ch - ang
-		    }else{
-		      if (string[j] == "+") ch = ch + ang
-		    }
-		  }
-
-		  return(data.frame(x = xRec,y = yRec,pType = typeRec))
+		  recLsys(string = string, drules =drules,
+		                     st =st, stepSize =stepSize, ang =ang,
+		                     which = which, shrinkFactor =shrinkFactor)
 		}else{
 		  for (j in 1:length(string))	{
 		    #cat("Processing character", j, "\n")

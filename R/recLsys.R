@@ -1,4 +1,22 @@
-recLsys = function(string = NULL, drules = NULL,
+##' Record path of the virtual pen with turtle graphics from Lsys
+##'
+##' This function takes input strings, previously created with \code{\link{Lsys}},
+##' translates them to coordinates and types of line segments stored in a data frame.
+##'
+##' @param string A character vector, or dataframe containing all required info to plot Lsys. For
+##' details, see \code{\link{drawLsys}}
+##'
+##'
+##' @return a data frame, containing coordinate data and segment types
+##'   s for start of a segment d for segment endpoints to be drawn, r for reverse points#'
+##'
+##' @name recLsys
+##' @rdname recLsys
+##' @export
+##' @keywords coordinate
+##'
+
+recLsys = function(string, drules = NULL,
                             st = c(5, 50, 0), stepSize = 1.0, ang = 90.0,
                             which = length(string), shrinkFactor = NULL){
 
@@ -26,7 +44,7 @@ recLsys = function(string = NULL, drules = NULL,
 
   # execute the drawing instructions
 
-  grid.move.to(st[1], st[2], default.units = "native")
+  #grid.move.to(st[1], st[2], default.units = "native")
   cp <- st # cp = current point
   ch <- st[3] # ch = current heading, 0 = East in degrees
   if (!is.null(shrinkFactor)) stepSize <- stepSize/shrinkFactor

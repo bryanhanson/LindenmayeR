@@ -4,7 +4,8 @@
 \alias{Lsys}
 \title{Rewrite an Axiom Using Production Rules to Give a String Ready for Turtle Graphics}
 \usage{
-Lsys(init = NULL, rules = NULL, n = 5, retAll = TRUE, verbose = 1L)
+Lsys(init = NULL, rules = NULL, n = 5, retAll = TRUE,
+  verbose = 1L)
 }
 \arguments{
 \item{init}{A character string giving variables (symbols) to use as the initial string
