@@ -6,7 +6,7 @@
 \usage{
 drawLsys(string = NULL, drules = NULL, st = c(5, 50, 0),
   stepSize = 1, ang = 90, which = length(string),
-  shrinkFactor = NULL, ...)
+  shrinkFactor = NULL, record = FALSE, ...)
 }
 \arguments{
 \item{string}{A character vector giving the strings containing the turtle graphics
@@ -17,7 +17,7 @@ curve and the Sierpinski triangle.}
 \item{drules}{A data frame containing columns "symbols" and "action".  These contain the input
 symbols and the corresponding drawing action.  The symbol column is in the
 character set used by \code{\link{Lsys}} and is arbitary.  The action column
-entries must be from the set \code{c("F", "f", "+", "-", "[", "]")}.  These are 
+entries must be from the set \code{c("F", "f", "+", "-", "[", "]")}.  These are
 the final drawing instructions and are interpreted as follows:
 \describe{
   \item{"F"}{Move forward drawing as you go.}
@@ -53,7 +53,8 @@ Most likely, something of the form \code{gp = gpar(...)}.  See \code{\link{gpar}
 and the last example.}
 }
 \value{
-None; side effect is a plot.
+none, side effect is a plot, UNLESS record is set to be TURE then a data frame, containing coordinate data and segment types
+  s for start of a segment d for segment endpoints to be drawn, r for reverse points, see \code{\link{recLsys}}
 }
 \description{
 This function takes input strings, previously created with \code{\link{Lsys}},
@@ -121,5 +122,13 @@ action = c("f", "F", "+", "-", "[", "]"), stringsAsFactors = FALSE)
 drawLsys(string = fractal_tree, stepSize = 2, ang = 25, st = c(50, 5, 90),
 drules = draw_ft, which = 5, gp = gpar(col = "chocolate4", fill = "honeydew"))
 grid.text("Fractal Seaweed (n = 4)", 0.25, 0.25)
+
+# Calculation/rendering separation
+
+d = drawLsys(fractal_tree, stepSize = 2, ang = 25, st = c(50, 5, 90),drules = draw_ft, which = 5,record=TRUE)
+ggLsys(d)
+
+
 }
 \keyword{plot}
+

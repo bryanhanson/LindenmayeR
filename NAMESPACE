@@ -2,5 +2,7 @@
 
 export(Lsys)
 export(drawLsys)
+export(ggLsys)
+export(recLsys)
 import(grid)
 import(stringr)
